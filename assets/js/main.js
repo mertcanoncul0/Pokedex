@@ -15,7 +15,7 @@ const loadMorePokemon = async () => {
   for (let i = start; i <= end; i++) {
     const existingPokemon = qs(`[data-id="${i}"]`);
     if (!existingPokemon || existingPokemon instanceof HTMLSpanElement) {
-      await getPokemonById(i);
+      getPokemonById(i);
     }
   }
 
