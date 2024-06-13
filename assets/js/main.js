@@ -3,6 +3,9 @@ const searchBtn = qs("[data-poke-button]");
 const pokeWrapper = qs("[data-poke-wrapper]");
 const pokeCardTemplate = qs("[data-poke-card-template]");
 const pokeForm = qs("[data-poke-form]");
+const modal = qs("[data-modal]");
+const modalClose = qs("[data-modal-close]");
+modal.style.display = "block";
 
 const pokeCount = 20;
 let currentPage = 1;
@@ -35,6 +38,67 @@ const initPokemon = async () => {
   loadMorePokemon();
 };
 
+const getPokemonWeaknesses = async (id) => {
+  try {
+    // Pokémon türlerini alın
+    const types = await getPokemonTypes(id);
+
+    // Her tür için zayıflık bilgilerini alın
+    const weaknessesPromises = types.map((type) => getTypeWeaknesses(type));
+    const weaknesses = await Promise.all(weaknessesPromises);
+
+    // Zayıflıkların birleşimini alın ve Pokémon'un kendi türlerini hariç tutun
+    const combinedWeaknesses = combineWeaknesses(weaknesses, types);
+
+    return combinedWeaknesses;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getPokemonTypes = async (id) => {
+  const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+  const res = await fetch(url);
+  if (res.status !== 200) {
+    throw new Error("Pokemon could not be found");
+  }
+  const pokemon = await res.json();
+  return pokemon.types.map((typeInfo) => typeInfo.type.name);
+};
+
+const getTypeWeaknesses = async (typeName) => {
+  const url = `https://pokeapi.co/api/v2/type/${typeName}`;
+  const res = await fetch(url);
+  if (res.status !== 200) {
+    throw new Error("Type could not be found");
+  }
+  const typeData = await res.json();
+  return typeData.damage_relations.double_damage_from.map(
+    (typeInfo) => typeInfo.name
+  );
+};
+
+const combineWeaknesses = (weaknesses, types) => {
+  const combined = {};
+  weaknesses.flat().forEach((type) => {
+    if (!combined[type]) {
+      combined[type] = 0;
+    }
+    combined[type]++;
+  });
+
+  // Her türün zayıflığı tek sefer sayılır, 2 ve üzeri kez sayılmaz.
+  // Pokémon'un kendi türlerini hariç tutun
+  return Object.keys(combined).filter(
+    (key) => combined[key] >= 1 && !types.includes(key)
+  );
+};
+
+// Örnek kullanım
+getPokemonWeaknesses(4).then((weaknesses) => {
+  console.log("Bulbasaur'un zayıf olduğu türler:", weaknesses);
+});
+
 const getPokemonById = async (id) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
   const res = await fetch(url);
@@ -45,19 +109,26 @@ const getPokemonById = async (id) => {
 
 const createPokemonCard = (pokemon) => {
   const pokeCardTemp = pokeCardTemplate.content.cloneNode(true);
-  const img = qs("img", pokeCardTemp);
-
+  const img = qs(".poke-image", pokeCardTemp);
+  const typeImage = qs(".icon-img", pokeCardTemp);
   const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
   const id = pokemon.id.toString().padStart(3, "0");
   const weight = pokemon.weight;
   const type = pokemon.types[0].type.name;
-  if (pokemon.types.length > 1) {
-    const button2 = document.createElement("button");
-    button2.classList.add("poke-button");
-    button2.textContent = pokemon.types[1].type.name;
-    button2.classList.add(`${pokemon.types[1].type.name}`);
 
-    qs(".poke-button", pokeCardTemp).after(button2);
+  if (pokemon.types.length > 1) {
+    const icon2 = document.createElement("div");
+    icon2.className = "icon " + pokemon.types[1].type.name;
+
+    const typeImage2 = document.createElement("img");
+    typeImage2.src = `assets/icons/${pokemon.types[1].type.name}.svg`;
+    typeImage2.alt = pokemon.types[1].type.name;
+    typeImage2.title = pokemon.types[1].type.name;
+    typeImage2.className = `icon ${pokemon.types[1].type.name}`;
+
+    icon2.appendChild(typeImage2);
+
+    qs(".icon", pokeCardTemp).after(icon2);
   }
   const color = colors[type];
 
@@ -69,11 +140,31 @@ const createPokemonCard = (pokemon) => {
   qs(".poke-weight", pokeCardTemp).textContent = formatWeight(weight);
   qs(".poke-button", pokeCardTemp).textContent = type;
   qs(".poke-button", pokeCardTemp).classList.add(type);
+  qs(".icon", pokeCardTemp).className = `icon ${type}`;
+
   img.src = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;
   img.alt = name;
   img.title = name;
 
+  typeImage.src = `assets/icons/${type}.svg`;
+  typeImage.alt = type;
+  typeImage.title = type;
+
   pokeWrapper.appendChild(pokeCardTemp);
+
+  qs(`[data-id="${pokemon.id}"]`).addEventListener("click", () => {
+    modal.style.display = "block";
+    getPokemonDetail(pokemon);
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        modal.style.display = "none";
+      }
+    });
+  });
+};
+
+const getPokemonDetail = async (pokemon) => {
   console.log(pokemon);
 };
 
@@ -131,6 +222,10 @@ pokeForm.addEventListener("submit", async (e) => {
   if (pokeWrapper.querySelector(".error-page-head")) {
     pokeWrapper.querySelector(".error-page-head").remove();
   }
+});
+
+modalClose.addEventListener("click", () => {
+  modal.style.display = "none";
 });
 
 window.addEventListener("scroll", handleScroll);

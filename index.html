@@ -49,19 +49,109 @@
     <main>
       <div class="poke-wrapper" data-poke-wrapper></div>
     </main>
+
+    <footer>
+      <p class="footer-head">
+        Made with ❤️ by
+        <a href="https://mertcanoncul.com" target="_blank" style="color: white"
+          >Mertcan Öncül</a
+        >
+      </p>
+    </footer>
+
+    <!-- Modal -->
+
+    <div class="modal" data-modal>
+      <div class="modal-content">
+        <span id="closeModal" class="close" data-modal-close>&times;</span>
+        <img
+          src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png"
+          class="modal-img"
+          alt=""
+        />
+        <div class="modal-wrapper">
+          <span class="modal-id">#001</span>
+
+          <h2 class="modal-name">Bulbausar</h2>
+          <p class="modal-title">Emperor Pokemon</p>
+
+          <div class="modal-types">
+            <button class="modal-type-button water">Water</button>
+            <button class="modal-type-button steel">Steel</button>
+          </div>
+
+          <h3 class="modal-pokedex-entry">Pokedex Entry</h3>
+          <p class="modal-pokedex-entry-desc">
+            It swims as fast as a jet boat. The edges of its wings are sharp and
+            can slice aprt derifting ice.
+          </p>
+
+          <h3 class="modal-abilities">Abilities</h3>
+          <div class="modal-abilities">
+            <button class="modal-ability-button">Torrent</button>
+            <button class="modal-ability-button">Defiant</button>
+          </div>
+          <div>
+            <div>
+              <div>
+                <h4>Height</h4>
+                <button>1.7m</button>
+              </div>
+              <div>
+                <h4>Weight</h4>
+                <button>74.5kg</button>
+              </div>
+            </div>
+            <div>
+              <div>
+                <h4>Weaknesses</h4>
+                <div class="weakness-wrapper">
+                  <div class="icon dragon">
+                    <img
+                      src="assets/icons/dragon.svg"
+                      alt="Dragon"
+                      title="Dragon"
+                    />
+                  </div>
+                  <div class="icon grass">
+                    <img src="assets/icons/grass.svg" />
+                  </div>
+                  <div class="icon water">
+                    <img src="assets/icons/water.svg" />
+                  </div>
+                  <div class="icon fire">
+                    <img src="assets/icons/fire.svg" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h4>Base Exp</h4>
+                <button>239</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-stats"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Snackbar -->
     <div id="snackbar"></div>
 
     <!-- Poke Card Template -->
     <template data-poke-card-template>
       <div class="poke-card">
-        <img />
+        <img class="poke-image" />
         <h4 class="poke-name gradient-text"></h4>
         <div>
           <button class="poke-id"></button>
           <button class="poke-weight"></button>
         </div>
         <div class="poke-card-wrapper">
-          <button class="poke-button"></button>
+          <div class="icon">
+            <img class="icon-img" />
+          </div>
         </div>
       </div>
     </template>

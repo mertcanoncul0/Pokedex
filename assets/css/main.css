@@ -4,7 +4,7 @@
   *::after {
     box-sizing: border-box;
   }
-  * {
+  *:not(dialog) {
     margin: 0;
     padding: 0;
   }
@@ -90,55 +90,69 @@ body {
 
 .poke-wrapper {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
   justify-items: center;
-  padding: 3rem;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 1.5rem 2.5rem;
   width: 100%;
   gap: 1rem;
+}
+
+.footer-head {
+  color: white;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.2rem;
 }
 
 .poke-card {
   background-color: #fff;
   border-radius: 15px;
   padding: 1rem;
-  animation: fadeInUp 0.5s ease-in-out;
+  transition: transform 0.3s ease;
+  cursor: pointer;
 
-  & .poke-name {
-    font-size: 1.5rem;
-    margin-bottom: 0.5em;
+  &:hover {
+    transform: translateY(-5px);
   }
+}
 
-  & .poke-id {
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #ffd700;
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 8px;
-    display: inline-block;
-    text-align: center;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    margin-bottom: 16px;
-  }
+.poke-name {
+  font-size: 1.5rem;
+  margin-bottom: 0.5em;
+}
 
-  & .poke-weight {
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #1e90ff;
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 8px;
-    text-align: center;
-    display: inline-block;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    margin-bottom: 16px;
-  }
+.poke-id {
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #ffd700;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  display: inline-block;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 16px;
+}
 
-  & .poke-card-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
+.poke-weight {
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #1e90ff;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-align: center;
+  display: inline-block;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 16px;
+}
+
+.poke-card-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
 }
 
 .error-page-head {
@@ -224,15 +238,22 @@ body {
   font-weight: bold;
   background-color: #1e90ff;
   color: #fff;
-  padding: 4px 8px;
+  padding: 6px 10px;
   border-radius: 8px;
   text-align: center;
   display: block;
   width: 50%;
+  display: flex;
+  align-items: center;
   margin-inline: auto;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   margin-bottom: 16px;
   transition: all 200ms ease-in-out;
+
+  & .icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .poke-button:hover {
@@ -357,6 +378,163 @@ body {
   -webkit-background-clip: text;
 }
 
+/* Modal */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+}
+
+.modal-img {
+  position: absolute;
+  width: 200px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+  min-height: 780px;
+  max-width: 600px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.modal-wrapper {
+  margin-top: 105px;
+}
+
+.modal-id {
+  font-size: 20px;
+  font-weight: bolder;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  color: #9e9b9b;
+}
+
+.modal-name {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.modal-title {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #9e9b9b;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+.modal-types {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.modal-type-button {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  display: inline-block;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 16px;
+}
+
+.modal-type-button.steel {
+  color: black;
+}
+
+.modal-pokedex-entry {
+  font-size: 22px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 8px;
+}
+
+.modal-pokedex-entry-desc {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 16px;
+  max-width: 80%;
+  margin-inline: auto;
+}
+
+.modal-abilities {
+  font-size: 22px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 8px;
+}
+
+.modal-abilities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.modal-ability-button {
+  display: inline-block;
+  padding: 10px 40px;
+  margin: 8px;
+  border: 2px solid #87ceeb; /* Border rengi */
+  border-radius: 25px; /* Köşeleri yuvarlat */
+  background-color: transparent; /* Arkaplan rengi */
+  color: #333; /* Metin rengi */
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close {
+  color: #aaa;
+  float: left;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.weakness-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+
+  & div {
+    margin-left: -12px;
+  }
+}
+
 /* Responsive */
 @media (width <=1300px) {
   .poke-wrapper {
@@ -380,24 +558,154 @@ body {
 
 @media (width <=500px) {
   .poke-wrapper {
-    grid-template-columns: repeat(1, 1fr);
     padding: 1rem;
   }
 }
 
-@media (width <=400px) {
+@media (width <=450px) {
+  .poke-wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (width <=390px) {
   .poke-form {
     & input,
     button {
-      padding: 6px 6px;
-    }
-
-    & input {
-      margin-left: 1rem;
-    }
-
-    & button {
-      margin-right: 1rem;
+      padding: 15px 30px;
     }
   }
+}
+
+@media (width <=345px) {
+  .poke-form {
+    margin-block: 1.5rem;
+    & input,
+    button {
+      padding: 10px 20px;
+    }
+  }
+}
+
+@media (width <=305px) {
+  .poke-form {
+    margin-block: 1rem;
+
+    & input,
+    button {
+      padding: 8px 6px;
+    }
+  }
+}
+
+.icon {
+  border-radius: 100%;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 200ms all;
+}
+
+.icon img {
+  width: 30px;
+  height: 30px;
+}
+
+.icon:hover {
+  filter: saturate(200%);
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.icon.bug {
+  background: #92bc2c;
+  box-shadow: 0 0 20px #92bc2c;
+}
+
+.icon.dark {
+  background: #595761;
+  box-shadow: 0 0 20px #595761;
+}
+
+.icon.dragon {
+  background: #0c69c8;
+  box-shadow: 0 0 20px #0c69c8;
+}
+
+.icon.electric {
+  background: #f2d94e;
+  box-shadow: 0 0 20px #f2d94e;
+}
+
+.icon.fire {
+  background: #fba54c;
+  box-shadow: 0 0 20px #fba54c;
+}
+
+.icon.fairy {
+  background: #ee90e6;
+  box-shadow: 0 0 20px #ee90e6;
+}
+
+.icon.fighting {
+  background: #d3425f;
+  box-shadow: 0 0 20px #d3425f;
+}
+
+.icon.flying {
+  background: #a1bbec;
+  box-shadow: 0 0 20px #a1bbec;
+}
+
+.icon.ghost {
+  background: #5f6dbc;
+  box-shadow: 0 0 20px #5f6dbc;
+}
+
+.icon.grass {
+  background: #5fbd58;
+  box-shadow: 0 0 20px #5fbd58;
+}
+
+.icon.ground {
+  background: #da7c4d;
+  box-shadow: 0 0 20px #da7c4d;
+}
+
+.icon.ice {
+  background: #75d0c1;
+  box-shadow: 0 0 20px #75d0c1;
+}
+
+.icon.normal {
+  background: #a0a29f;
+  box-shadow: 0 0 20px #a0a29f;
+  font-size: 0.8rem;
+}
+
+.icon.poison {
+  background: #b763cf;
+  box-shadow: 0 0 20px #b763cf;
+}
+
+.icon.psychic {
+  background: #fa8581;
+  box-shadow: 0 0 20px #fa8581;
+}
+
+.icon.rock {
+  background: #c9bb8a;
+  box-shadow: 0 0 20px #c9bb8a;
+}
+
+.icon.steel {
+  background: #5695a3;
+  box-shadow: 0 0 20px #5695a3;
+}
+
+.icon.water {
+  background: #539ddf;
+  box-shadow: 0 0 20px #539ddf;
 }
