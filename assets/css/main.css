@@ -389,7 +389,7 @@ body {
   .poke-form {
     & input,
     button {
-      padding: 12px 20px;
+      padding: 10px 15px;
     }
   }
 }
