@@ -51,6 +51,14 @@ const createPokemonCard = (pokemon) => {
   const id = pokemon.id.toString().padStart(3, "0");
   const weight = pokemon.weight;
   const type = pokemon.types[0].type.name;
+  if (pokemon.types.length > 1) {
+    const button2 = document.createElement("button");
+    button2.classList.add("poke-button");
+    button2.textContent = pokemon.types[1].type.name;
+    button2.classList.add(`${pokemon.types[1].type.name}`);
+
+    qs(".poke-button", pokeCardTemp).after(button2);
+  }
   const color = colors[type];
 
   qs(".poke-card", pokeCardTemp).style.backgroundColor = color;
@@ -66,6 +74,7 @@ const createPokemonCard = (pokemon) => {
   img.title = name;
 
   pokeWrapper.appendChild(pokeCardTemp);
+  console.log(pokemon);
 };
 
 searchInput.addEventListener("input", (e) => {
