@@ -224,9 +224,9 @@ pokeForm.addEventListener("submit", async (e) => {
   }
 });
 
-modalClose.addEventListener("click", () => {
-  modal.style.display = "none";
-});
+// modalClose.addEventListener("click", () => {
+//   modal.style.display = "none";
+// });
 
 window.addEventListener("scroll", handleScroll);
 
