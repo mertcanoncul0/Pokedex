@@ -1,0 +1,353 @@
+@layer Reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+
+  button {
+    border: none;
+    outline: none;
+  }
+}
+
+body {
+  background-image: linear-gradient(90deg, #4743d0, #880868);
+  font-family: "Poppins", sans-serif;
+  width: 100vw;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.page-head {
+  color: white;
+  padding-block: 1rem;
+  font-size: calc(1rem + 1vw);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.poke-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block: 2.5rem;
+  width: 100%;
+
+  & input,
+  button {
+    background-color: #fff;
+    padding: 15px 30px;
+    border: none;
+  }
+
+  & input {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    font-weight: bold;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  & button {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+.poke-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 3rem;
+  width: 100%;
+  gap: 12px;
+}
+
+.poke-card {
+  width: 300px;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 1rem;
+  animation: fadeInUp 0.5s ease-in-out;
+
+  & .poke-name {
+    font-size: 1.5rem;
+    margin-bottom: 0.5em;
+  }
+
+  & .poke-id {
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #ffd700;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 8px;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 16px;
+  }
+
+  & .poke-weight {
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #1e90ff;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 8px;
+    text-align: center;
+    display: inline-block;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 16px;
+  }
+}
+
+.error-page-head {
+  padding: 1rem 2rem;
+  color: #fff;
+  font-weight: 500;
+  font-size: 24px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+  }
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  background-image: linear-gradient(90deg, #880868, #4743d0);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 2rem;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+.snackbar.show {
+  visibility: visible;
+  animation: sfadein 0.5s, sfadeout 0.5s 2.5s;
+}
+
+@keyframes sfadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes sfadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+.poke-button {
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: #1e90ff;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-align: center;
+  display: block;
+  width: 50%;
+  margin-inline: auto;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 16px;
+  transition: all 200ms ease-in-out;
+}
+
+.poke-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.fire {
+  background-color: #ff6347;
+}
+.grass {
+  background-color: #adff2f;
+}
+.electric {
+  background-color: #ffff00;
+  color: #333;
+}
+.water {
+  background-color: #00bfff;
+}
+.ground {
+  background-color: #d2691e;
+}
+.rock {
+  background-color: #b8860b;
+}
+.fairy {
+  background-color: #ffb6c1;
+}
+.poison {
+  background-color: #da70d6;
+}
+.bug {
+  background-color: #9acd32;
+}
+.dragon {
+  background-color: #8a2be2;
+}
+.psychic {
+  background-color: #ff69b4;
+}
+.flying {
+  background-color: #add8e6;
+}
+.fighting {
+  background-color: #dc143c;
+}
+.normal {
+  background-color: #a9a9a9;
+}
+.ice {
+  background-color: #afeeee;
+}
+
+.gradient-text {
+  font-size: 24px;
+  font-weight: bold;
+  background: -webkit-linear-gradient(left, #000, #fff); /* Default gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-text.fire {
+  background: linear-gradient(45deg, #ff4500, #ff6347);
+  -webkit-background-clip: text;
+}
+.gradient-text.grass {
+  background: linear-gradient(45deg, #008000, #adff2f);
+  -webkit-background-clip: text;
+}
+.gradient-text.electric {
+  background: linear-gradient(45deg, #ffd700, #ffff00);
+  -webkit-background-clip: text;
+}
+.gradient-text.water {
+  background: linear-gradient(45deg, #1e90ff, #00bfff);
+  -webkit-background-clip: text;
+}
+.gradient-text.ground {
+  background: linear-gradient(45deg, #8b4513, #d2691e);
+  -webkit-background-clip: text;
+}
+.gradient-text.rock {
+  background: linear-gradient(45deg, #a52a2a, #b8860b);
+  -webkit-background-clip: text;
+}
+.gradient-text.fairy {
+  background: linear-gradient(45deg, #ee82ee, #ffb6c1);
+  -webkit-background-clip: text;
+}
+.gradient-text.poison {
+  background: linear-gradient(45deg, #800080, #da70d6);
+  -webkit-background-clip: text;
+}
+.gradient-text.bug {
+  background: linear-gradient(45deg, #556b2f, #9acd32);
+  -webkit-background-clip: text;
+}
+.gradient-text.dragon {
+  background: linear-gradient(45deg, #4b0082, #8a2be2);
+  -webkit-background-clip: text;
+}
+.gradient-text.psychic {
+  background: linear-gradient(45deg, #ff1493, #ff69b4);
+  -webkit-background-clip: text;
+}
+.gradient-text.flying {
+  background: linear-gradient(45deg, #87ceeb, #add8e6);
+  -webkit-background-clip: text;
+}
+.gradient-text.fighting {
+  background: linear-gradient(45deg, #a52a2a, #dc143c);
+  -webkit-background-clip: text;
+}
+.gradient-text.normal {
+  background: linear-gradient(45deg, #808080, #a9a9a9);
+  -webkit-background-clip: text;
+}
+.gradient-text.ice {
+  background: linear-gradient(45deg, #00ced1, #afeeee);
+  -webkit-background-clip: text;
+}
