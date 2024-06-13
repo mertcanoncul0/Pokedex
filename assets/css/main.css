@@ -391,5 +391,13 @@ body {
     button {
       padding: 10px 15px;
     }
+
+    & input {
+      margin-left: 1rem;
+    }
+
+    & button {
+      margin-right: 1rem;
+    }
   }
 }
