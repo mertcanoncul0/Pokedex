@@ -2,8 +2,8 @@
 
 ## Screenshot
 
-![Ana Ekran](assets/images/Screenshot%20at%20Jun%2014%2020-28-10.png)
+![Ana Ekran](assets/images/home.png)
 _Ana Ekran_
 
-![Pokémon Detay](assets/images/2.png)
+![Pokémon Detay](assets/images/home-detail.png)
 _Pokémon Detay Sayfası_
