@@ -2,11 +2,9 @@ const searchInput = qs("[data-poke-input]");
 const searchBtn = qs("[data-poke-button]");
 const pokeWrapper = qs("[data-poke-wrapper]");
 const pokeCardTemplate = qs("[data-poke-card-template]");
+const pokeDetailTemplate = qs("[data-detail-template]");
 const pokeForm = qs("[data-poke-form]");
 const modal = qs("[data-modal]");
-const modalClose = qs("[data-modal-close]");
-modal.style.display = "block";
-
 const pokeCount = 20;
 let currentPage = 1;
 let isLoadMoreTriggered = false;
@@ -94,10 +92,9 @@ const combineWeaknesses = (weaknesses, types) => {
   );
 };
 
-// Örnek kullanım
-getPokemonWeaknesses(4).then((weaknesses) => {
-  console.log("Bulbasaur'un zayıf olduğu türler:", weaknesses);
-});
+// getPokemonWeaknesses(4).then((weaknesses) => {
+//   console.log("Bulbasaur'un zayıf olduğu türler:", weaknesses);
+// });
 
 const getPokemonById = async (id) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
@@ -165,7 +162,78 @@ const createPokemonCard = (pokemon) => {
 };
 
 const getPokemonDetail = async (pokemon) => {
+  qs("[data-modal]").innerHTML = "";
+
+  const pokeDetailTemp = pokeDetailTemplate.content.cloneNode(true);
+  const img = qs(".modal-img", pokeDetailTemp);
+  const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
+  const id = pokemon.id.toString().padStart(3, "0");
+  const weight = pokemon.weight;
+  const height = pokemon.height;
+  const type = pokemon.types[0].type.name;
+  const weaknesses = await getPokemonWeaknesses(pokemon.id);
+  const typeImage = qs(".modal-type-button-img", pokeDetailTemp);
+
+  if (pokemon.types.length > 1) {
+    const icon2 = document.createElement("div");
+    icon2.className = "modal-type-button icon " + pokemon.types[1].type.name;
+
+    const typeImage2 = document.createElement("img");
+    typeImage2.src = `assets/icons/${pokemon.types[1].type.name}.svg`;
+    typeImage2.alt = pokemon.types[1].type.name;
+    typeImage2.title = pokemon.types[1].type.name;
+    typeImage2.className = `icon ${pokemon.types[1].type.name}`;
+
+    icon2.appendChild(typeImage2);
+
+    qs(".modal-type-button", pokeDetailTemp).after(icon2);
+  }
   console.log(pokemon);
+  qs(".modal-id", pokeDetailTemp).textContent = "#" + id;
+  qs(".modal-name", pokeDetailTemp).textContent = name;
+  pokemon.abilities.forEach((ability) => {
+    const button = document.createElement("button");
+    button.className = "modal-ability-button";
+    button.textContent = ability.ability.name;
+    qs("div.modal-abilities", pokeDetailTemp).appendChild(button);
+  });
+
+  qs("[data-weight]", pokeDetailTemp).textContent = formatWeight(weight);
+  qs("[data-height]", pokeDetailTemp).textContent = height;
+  qs(".modal-type-button", pokeDetailTemp).classList.add(type);
+  qs("[data-base-exp]", pokeDetailTemp).textContent = pokemon.base_experience;
+
+  weaknesses.forEach((weakness) => {
+    const divEl = document.createElement("div");
+    divEl.className = " icon " + weakness;
+
+    const imgEl = document.createElement("img");
+    imgEl.src = `assets/icons/${weakness}.svg`;
+    imgEl.alt = weakness;
+    imgEl.title = weakness;
+
+    divEl.appendChild(imgEl);
+
+    qs(".weakness-wrapper", pokeDetailTemp).appendChild(divEl);
+  });
+
+  img.src = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;
+  img.alt = name;
+  img.title = name;
+
+  typeImage.src = `assets/icons/${pokemon.types[0].type.name}.svg`;
+  typeImage.alt = name;
+  typeImage.title = name;
+
+  pokemon.stats.forEach((stat) => {
+    qs(`[data-${stat.stat.name}]`, pokeDetailTemp).innerHTML += stat.base_stat;
+  });
+
+  qs("[data-modal]").appendChild(pokeDetailTemp);
+  qs("[data-modal-close]").addEventListener("click", () => {
+    console.log("hello");
+    qs("[data-modal]").style.display = "none";
+  });
 };
 
 searchInput.addEventListener("input", (e) => {
@@ -223,10 +291,6 @@ pokeForm.addEventListener("submit", async (e) => {
     pokeWrapper.querySelector(".error-page-head").remove();
   }
 });
-
-// modalClose.addEventListener("click", () => {
-//   modal.style.display = "none";
-// });
 
 window.addEventListener("scroll", handleScroll);
 

@@ -401,7 +401,7 @@ body {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 10% auto;
+  margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 40%;
@@ -485,10 +485,7 @@ body {
   font-size: 22px;
   font-weight: bold;
   color: black;
-  margin-bottom: 8px;
-}
-
-.modal-abilities {
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -506,8 +503,117 @@ body {
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
-  cursor: pointer;
   transition: all 0.3s ease;
+}
+
+.modal-stats-wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+
+  & h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 8px;
+  }
+
+  & button {
+    display: inline-block;
+    padding: 10px 40px;
+    margin: 8px;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  & .weakness-wrapper {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    border-radius: 25px;
+  }
+}
+
+.modal-stats-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  & h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 8px;
+  }
+
+  & button {
+    display: inline-block;
+    padding-block: 6px 12px;
+    padding-inline: 6px;
+    margin: 8px;
+    border-radius: 80px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  & button span {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  & button.hp span {
+    background-color: red;
+  }
+
+  & button.atk span {
+    background-color: #ff4500;
+  }
+
+  & button.def span {
+    background-color: #f2d94e;
+  }
+
+  & button.spa span {
+    background-color: #00bfff;
+  }
+
+  & button.spd span {
+    background-color: #008000;
+  }
+
+  & button.spdd span {
+    background-color: #da70d6;
+  }
+
+  & button.tot {
+    background-color: #ee82ee;
+  }
+
+  & button.tot span {
+    background-color: #4743d0;
+  }
+
+  & span {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+  }
 }
 
 .close {
@@ -528,10 +634,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
+  padding-left: 1.5rem !important;
 
   & div {
-    margin-left: -12px;
+    margin-left: -0.5rem;
   }
 }
 
