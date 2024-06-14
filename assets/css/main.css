@@ -115,7 +115,6 @@ body {
   border-radius: 15px;
   padding: 1rem;
   transition: transform 0.3s ease;
-  cursor: pointer;
 
   &:hover {
     transform: translateY(-5px);
@@ -125,6 +124,7 @@ body {
 .poke-name {
   font-size: 1.5rem;
   margin-bottom: 0.5em;
+  cursor: pointer;
 }
 
 .poke-id {
@@ -397,6 +397,10 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   overflow: auto;
   transition: all 400ms ease-in-out;
+}
+
+.poke-image {
+  cursor: pointer;
 }
 
 .modal.show {
