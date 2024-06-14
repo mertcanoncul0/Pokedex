@@ -745,9 +745,12 @@ body {
 @media (width <=345px) {
   .poke-form {
     margin-block: 1.5rem;
-    & input,
-    button {
+    & input {
       padding: 8px 14px;
+    }
+
+    & button {
+      padding: 8px;
     }
   }
 }
@@ -762,9 +765,12 @@ body {
   .poke-form {
     margin-block: 1rem;
 
-    & input,
-    button {
+    & input {
       padding: 6px 6px;
+    }
+
+    & button {
+      padding: 6px 0;
     }
   }
 }
