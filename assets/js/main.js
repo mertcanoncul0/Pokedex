@@ -149,8 +149,12 @@ const renderPokemonDetail = async (pokemon) => {
     qs(".modal-type-button", pokeDetailTemp).after(icon2);
   }
 
+  qs(".modal-pokedex-entry-desc", pokeDetailTemp).textContent =
+    await getPokemonEntry(pokemon.species.url);
+
   qs(".modal-id", pokeDetailTemp).textContent = "#" + id;
   qs(".modal-name", pokeDetailTemp).textContent = name;
+
   pokemon.abilities.forEach((ability) => {
     const button = document.createElement("button");
     button.className = "modal-ability-button";
@@ -194,6 +198,7 @@ const renderPokemonDetail = async (pokemon) => {
   qs("[data-modal-close]").addEventListener("click", () => {
     modal.classList.remove("show");
   });
+  console.log(pokemon);
 };
 
 searchInput.addEventListener("input", (e) => {

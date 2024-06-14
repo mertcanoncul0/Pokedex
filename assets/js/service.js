@@ -40,3 +40,14 @@ const getTypeWeaknesses = async (typeName) => {
     (typeInfo) => typeInfo.name
   );
 };
+
+const getPokemonEntry = async (url) => {
+  const res = await fetch(url);
+  const data = await res.json();
+
+  const pokedexEntry = data.flavor_text_entries.find(
+    (entry) => entry.language.name === "en"
+  );
+
+  return pokedexEntry ? pokedexEntry.flavor_text : "No entry found";
+};

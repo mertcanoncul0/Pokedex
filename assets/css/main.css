@@ -413,12 +413,11 @@ body {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto;
+  margin: 6% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 40%;
-  min-height: 780px;
-  max-width: 600px;
+  min-height: 101vh;
+  max-width: 35rem;
   border-radius: 8px;
   position: relative;
 }
@@ -663,7 +662,7 @@ body {
 @media (width <=1250px) {
   .modal-content {
     margin: 8% auto;
-    width: 55%;
+    width: 65%;
   }
 }
 
@@ -690,20 +689,35 @@ body {
 
 @media (width <= 650px) {
   .modal-content {
-    margin: 12% auto;
+    margin-block: 0 13%;
     width: 100%;
     max-width: max-content;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & .close {
+      position: absolute;
+      left: 1em;
+      top: 1em;
+      font-size: 2rem;
+    }
+  }
+
+  .modal-wrapper {
+    margin-top: 0;
+  }
+
+  .modal-img {
+    position: initial;
+    transform: none;
   }
 }
 
 @media (width <=500px) {
   .poke-wrapper {
     padding: 1rem;
-  }
-
-  .modal-content {
-    margin: 14% auto;
-    width: 100%;
   }
 
   .modal-abilities {
@@ -727,6 +741,13 @@ body {
 @media (width <= 465px) {
   .modal-stats-container {
     grid-template-columns: repeat(6, 1fr);
+  }
+
+  .modal-content {
+    & .close {
+      left: 0.5em;
+      top: 0.5em;
+    }
   }
 }
 
