@@ -723,6 +723,10 @@ body {
   .modal-stats-container {
     grid-template-columns: repeat(6, 1fr);
   }
+  .poke-form input,
+  .poke-form button {
+    padding: 10px 15px;
+  }
 }
 
 @media (width <=450px) {
@@ -732,11 +736,6 @@ body {
 }
 
 @media (width <= 390px) {
-  .poke-form input,
-  .poke-form button {
-    padding: 15px 30px;
-  }
-
   .modal-stats-container {
     grid-template-columns: repeat(5, 1fr);
   }
@@ -747,7 +746,7 @@ body {
     margin-block: 1.5rem;
     & input,
     button {
-      padding: 10px 20px;
+      padding: 8px 14px;
     }
   }
 }
@@ -764,7 +763,7 @@ body {
 
     & input,
     button {
-      padding: 8px 6px;
+      padding: 6px 6px;
     }
   }
 }
