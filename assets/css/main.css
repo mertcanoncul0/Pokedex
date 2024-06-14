@@ -736,9 +736,12 @@ body {
   }
 
   .poke-form {
-    & input,
-    button {
-      padding: 12px;
+    & input {
+      padding: 8px;
+    }
+
+    & button {
+      padding: 8px 0;
     }
   }
 }
@@ -749,9 +752,12 @@ body {
   }
 
   .poke-form {
-    & input,
-    button {
-      padding: 10px;
+    & input {
+      padding: 6px;
+    }
+
+    & button {
+      padding: 6px 0;
     }
   }
 }
@@ -759,9 +765,12 @@ body {
 @media (width <=345px) {
   .poke-form {
     margin-block: 1.5rem;
-    & input,
-    button {
-      padding: 8px;
+    & input {
+      padding: 4px;
+    }
+
+    & button {
+      padding: 4px 0;
     }
   }
 }
@@ -775,20 +784,22 @@ body {
 @media (width <=305px) {
   .poke-form {
     margin-block: 1rem;
-
-    & input {
-      padding: 6px 6px;
-    }
-
-    & button {
-      padding: 6px 0;
-    }
   }
 }
 
 @media (width <= 250px) {
   .modal-stats-container {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .poke-form {
+    & input {
+      padding: 2px;
+    }
+
+    & button {
+      padding: 2px 0;
+    }
   }
 }
 
