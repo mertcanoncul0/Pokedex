@@ -648,10 +648,24 @@ body {
   }
 }
 
+@media (width <=1250px) {
+  .modal-content {
+    margin: 8% auto;
+    width: 55%;
+  }
+}
+
 @media (width <=1050px) {
   .poke-wrapper {
     grid-template-columns: repeat(3, 1fr);
     padding: 1.5rem;
+  }
+}
+
+@media (width <=867px) {
+  .modal-content {
+    margin: 10% auto;
+    width: 75%;
   }
 }
 
@@ -662,9 +676,40 @@ body {
   }
 }
 
+@media (width <= 650px) {
+  .modal-content {
+    margin: 12% auto;
+    width: 95%;
+  }
+}
+
 @media (width <=500px) {
   .poke-wrapper {
     padding: 1rem;
+  }
+
+  .modal-content {
+    margin: 14% auto;
+    width: 100%;
+  }
+
+  .modal-abilities {
+    flex-direction: column;
+  }
+
+  .modal-stats-wrapper {
+    flex-direction: column;
+  }
+
+  .modal-stats-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+@media (width <= 465px) {
+  .modal-stats-container {
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 
@@ -681,6 +726,10 @@ body {
       padding: 15px 30px;
     }
   }
+
+  .modal-stats-container {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
 @media (width <=345px) {
@@ -693,6 +742,12 @@ body {
   }
 }
 
+@media (width <= 322px) {
+  .modal-stats-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 @media (width <=305px) {
   .poke-form {
     margin-block: 1rem;
@@ -701,6 +756,12 @@ body {
     button {
       padding: 8px 6px;
     }
+  }
+}
+
+@media (width <= 250px) {
+  .modal-stats-container {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

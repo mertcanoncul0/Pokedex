@@ -171,7 +171,7 @@ const getPokemonDetail = async (pokemon) => {
   const weight = pokemon.weight;
   const height = pokemon.height;
   const type = pokemon.types[0].type.name;
-  const weaknesses = await getPokemonWeaknesses(pokemon.id);
+
   const typeImage = qs(".modal-type-button-img", pokeDetailTemp);
 
   if (pokemon.types.length > 1) {
@@ -203,6 +203,15 @@ const getPokemonDetail = async (pokemon) => {
   qs(".modal-type-button", pokeDetailTemp).classList.add(type);
   qs("[data-base-exp]", pokeDetailTemp).textContent = pokemon.base_experience;
 
+  img.src = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;
+  img.alt = name;
+  img.title = name;
+
+  typeImage.src = `assets/icons/${pokemon.types[0].type.name}.svg`;
+  typeImage.alt = name;
+  typeImage.title = name;
+
+  const weaknesses = await getPokemonWeaknesses(pokemon.id);
   weaknesses.forEach((weakness) => {
     const divEl = document.createElement("div");
     divEl.className = " icon " + weakness;
@@ -216,14 +225,6 @@ const getPokemonDetail = async (pokemon) => {
 
     qs(".weakness-wrapper", pokeDetailTemp).appendChild(divEl);
   });
-
-  img.src = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;
-  img.alt = name;
-  img.title = name;
-
-  typeImage.src = `assets/icons/${pokemon.types[0].type.name}.svg`;
-  typeImage.alt = name;
-  typeImage.title = name;
 
   pokemon.stats.forEach((stat) => {
     qs(`[data-${stat.stat.name}]`, pokeDetailTemp).innerHTML += stat.base_stat;
