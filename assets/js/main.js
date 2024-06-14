@@ -85,9 +85,13 @@ const createPokemonCard = (pokemon) => {
     typeImage2.title = pokemon.types[1].type.name;
     typeImage2.className = `icon ${pokemon.types[1].type.name}`;
 
-    icon2.className = "icon " + pokemon.types[1].type.name;
+    icon2.className = "tooltip icon " + pokemon.types[1].type.name;
+    const spanEl = document.createElement("span");
+    spanEl.className = `tooltiptext poke-button ${pokemon.types[1].type.name}`;
+    spanEl.textContent = pokemon.types[1].type.name;
 
     icon2.appendChild(typeImage2);
+    icon2.appendChild(spanEl);
 
     qs(".icon", pokeCardTemp).after(icon2);
   }
@@ -99,17 +103,24 @@ const createPokemonCard = (pokemon) => {
   pokemonImage.title = pokemon.types[0].type.name;
 
   // Pokemon Icon
-  qs(".icon", pokeCardTemp).className = `icon ${type}`;
+  qs(".icon", pokeCardTemp).className = `tooltip icon ${type}`;
   const iconImage = qs(".icon-img", pokeCardTemp);
   iconImage.src = `assets/icons/${type}.svg`;
   iconImage.alt = type;
   iconImage.title = type;
 
+  const spanEl = document.createElement("span");
+  spanEl.className = `tooltiptext-left poke-button ${type}`;
+
+  spanEl.textContent = type;
+
+  qs(".icon", pokeCardTemp).appendChild(spanEl);
+
   // Pokemon Wrapper Append
   pokeWrapper.appendChild(pokeCardTemp);
 
   // Pokemon Event Listener
-  qs(`[data-id="${pokeId}"]`).addEventListener("click", () => {
+  const handleClick = () => {
     modal.classList.add("show");
     renderPokemonDetail(pokemon);
 
@@ -118,7 +129,9 @@ const createPokemonCard = (pokemon) => {
         modal.classList.remove("show");
       }
     });
-  });
+  };
+  qs(`[data-id="${pokeId}"] img`).addEventListener("click", handleClick);
+  qs(`[data-id="${pokeId}"] h4`).addEventListener("click", handleClick);
 };
 
 const renderPokemonDetail = async (pokemon) => {

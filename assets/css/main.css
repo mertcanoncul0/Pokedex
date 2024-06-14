@@ -652,6 +652,57 @@ body {
   }
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  justify-content: center;
+  position: absolute;
+  z-index: 5000;
+  top: -12%;
+  left: 67%;
+  margin-left: 20px;
+}
+
+.tooltip .tooltiptext-left {
+  visibility: hidden;
+  width: 120px;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  justify-content: center;
+  position: absolute;
+  z-index: 5000;
+  right: 110%;
+  top: -15%;
+  margin-left: 20px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip:hover .tooltiptext-left {
+  visibility: visible;
+}
+
+.tooltip:focus .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip:focus .tooltiptext-left {
+  visibility: visible;
+}
+
 /* Responsive */
 @media (width <=1300px) {
   .poke-wrapper {
@@ -739,6 +790,16 @@ body {
 }
 
 @media (width <= 465px) {
+  .tooltip .tooltiptext {
+    top: 113%;
+    left: -94%;
+  }
+
+  .tooltip .tooltiptext-left {
+    top: 113%;
+    left: -94%;
+  }
+
   .modal-stats-container {
     grid-template-columns: repeat(6, 1fr);
   }
