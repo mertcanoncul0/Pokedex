@@ -734,22 +734,33 @@ body {
   .poke-wrapper {
     grid-template-columns: repeat(1, 1fr);
   }
+
+  .poke-form {
+    & input,
+    button {
+      padding: 12px;
+    }
+  }
 }
 
 @media (width <= 390px) {
   .modal-stats-container {
     grid-template-columns: repeat(5, 1fr);
   }
+
+  .poke-form {
+    & input,
+    button {
+      padding: 10px;
+    }
+  }
 }
 
 @media (width <=345px) {
   .poke-form {
     margin-block: 1.5rem;
-    & input {
-      padding: 8px 14px;
-    }
-
-    & button {
+    & input,
+    button {
       padding: 8px;
     }
   }
