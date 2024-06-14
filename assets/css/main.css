@@ -792,12 +792,12 @@ body {
 @media (width <= 465px) {
   .tooltip .tooltiptext {
     top: 113%;
-    left: -94%;
+    left: -146%;
   }
 
   .tooltip .tooltiptext-left {
     top: 113%;
-    left: -94%;
+    left: -146%;
   }
 
   .modal-stats-container {
