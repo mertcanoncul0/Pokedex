@@ -67,3 +67,6 @@ const showSnackbar = (message) => {
     snackbar.className = snackbar.className.replace("show", "");
   }, 3000);
 };
+
+const getPokemonImage = (id) =>
+  `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;

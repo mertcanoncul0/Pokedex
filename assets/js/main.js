@@ -5,6 +5,7 @@ const pokeCardTemplate = qs("[data-poke-card-template]");
 const pokeDetailTemplate = qs("[data-detail-template]");
 const pokeForm = qs("[data-poke-form]");
 const modal = qs("[data-modal]");
+
 const pokeCount = 20;
 let currentPage = 1;
 let isLoadMoreTriggered = false;
@@ -12,9 +13,11 @@ let isLoadMoreTriggered = false;
 const loadMorePokemon = async () => {
   const start = (currentPage - 1) * pokeCount + 1;
   const end = currentPage * pokeCount;
+  console.log(start, end);
 
   for (let i = start; i <= end; i++) {
     const existingPokemon = qs(`[data-id="${i}"]`);
+
     if (!existingPokemon || existingPokemon instanceof HTMLSpanElement) {
       getPokemonById(i);
     }
@@ -23,61 +26,9 @@ const loadMorePokemon = async () => {
   isLoadMoreTriggered = false;
 };
 
-const handleScroll = () => {
-  const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-  if (!isLoadMoreTriggered && scrollTop + clientHeight >= scrollHeight - 200) {
-    isLoadMoreTriggered = true;
-    currentPage++;
-    loadMorePokemon();
-  }
-};
-
-const initPokemon = async () => {
-  loadMorePokemon();
-};
-
-const getPokemonWeaknesses = async (id) => {
-  try {
-    // Pokémon türlerini alın
-    const types = await getPokemonTypes(id);
-
-    // Her tür için zayıflık bilgilerini alın
-    const weaknessesPromises = types.map((type) => getTypeWeaknesses(type));
-    const weaknesses = await Promise.all(weaknessesPromises);
-
-    // Zayıflıkların birleşimini alın ve Pokémon'un kendi türlerini hariç tutun
-    const combinedWeaknesses = combineWeaknesses(weaknesses, types);
-
-    return combinedWeaknesses;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const getPokemonTypes = async (id) => {
-  const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-  const res = await fetch(url);
-  if (res.status !== 200) {
-    throw new Error("Pokemon could not be found");
-  }
-  const pokemon = await res.json();
-  return pokemon.types.map((typeInfo) => typeInfo.type.name);
-};
-
-const getTypeWeaknesses = async (typeName) => {
-  const url = `https://pokeapi.co/api/v2/type/${typeName}`;
-  const res = await fetch(url);
-  if (res.status !== 200) {
-    throw new Error("Type could not be found");
-  }
-  const typeData = await res.json();
-  return typeData.damage_relations.double_damage_from.map(
-    (typeInfo) => typeInfo.name
-  );
-};
-
 const combineWeaknesses = (weaknesses, types) => {
   const combined = {};
+
   weaknesses.flat().forEach((type) => {
     if (!combined[type]) {
       combined[type] = 0;
@@ -85,83 +36,92 @@ const combineWeaknesses = (weaknesses, types) => {
     combined[type]++;
   });
 
-  // Her türün zayıflığı tek sefer sayılır, 2 ve üzeri kez sayılmaz.
-  // Pokémon'un kendi türlerini hariç tutun
   return Object.keys(combined).filter(
     (key) => combined[key] >= 1 && !types.includes(key)
   );
 };
 
-// getPokemonWeaknesses(4).then((weaknesses) => {
-//   console.log("Bulbasaur'un zayıf olduğu türler:", weaknesses);
-// });
+const getPokemonWeaknesses = async (id) => {
+  const types = await getPokemonTypes(id);
 
-const getPokemonById = async (id) => {
-  const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-  const res = await fetch(url);
+  const weaknessesPromises = types.map((type) => getTypeWeaknesses(type));
+  const weaknesses = await Promise.all(weaknessesPromises);
 
-  const pokemon = await res.json();
-  createPokemonCard(pokemon);
+  const combinedWeaknesses = combineWeaknesses(weaknesses, types);
+
+  return combinedWeaknesses;
 };
 
 const createPokemonCard = (pokemon) => {
   const pokeCardTemp = pokeCardTemplate.content.cloneNode(true);
-  const img = qs(".poke-image", pokeCardTemp);
-  const typeImage = qs(".icon-img", pokeCardTemp);
-  const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
-  const id = pokemon.id.toString().padStart(3, "0");
-  const weight = pokemon.weight;
   const type = pokemon.types[0].type.name;
+  const pokeId = pokemon.id.toString().padStart(3, "0");
+
+  // Pokemon Card
+  qs(".poke-card", pokeCardTemp).style.backgroundColor = colors[type];
+  qs(".poke-card", pokeCardTemp).dataset.id = pokeId;
+
+  // Pokemon Name
+  qs(".poke-name", pokeCardTemp).classList.add(type);
+  qs(".poke-name", pokeCardTemp).textContent =
+    pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
+
+  // Pokemon id
+  qs(".poke-id", pokeCardTemp).textContent = `#${pokeId}`;
+
+  // Pokemon Weight
+  qs(".poke-weight", pokeCardTemp).textContent = formatWeight(pokemon.weight);
+
+  // Pokemon Buttons
+  qs(".poke-button", pokeCardTemp).textContent = type;
+  qs(".poke-button", pokeCardTemp).classList.add(type);
 
   if (pokemon.types.length > 1) {
     const icon2 = document.createElement("div");
-    icon2.className = "icon " + pokemon.types[1].type.name;
-
     const typeImage2 = document.createElement("img");
+
     typeImage2.src = `assets/icons/${pokemon.types[1].type.name}.svg`;
     typeImage2.alt = pokemon.types[1].type.name;
     typeImage2.title = pokemon.types[1].type.name;
     typeImage2.className = `icon ${pokemon.types[1].type.name}`;
 
+    icon2.className = "icon " + pokemon.types[1].type.name;
+
     icon2.appendChild(typeImage2);
 
     qs(".icon", pokeCardTemp).after(icon2);
   }
-  const color = colors[type];
 
-  qs(".poke-card", pokeCardTemp).style.backgroundColor = color;
-  qs(".poke-card", pokeCardTemp).dataset.id = pokemon.id;
-  qs(".poke-name", pokeCardTemp).classList.add(type);
-  qs(".poke-name", pokeCardTemp).textContent = name;
-  qs(".poke-id", pokeCardTemp).textContent = `#${id}`;
-  qs(".poke-weight", pokeCardTemp).textContent = formatWeight(weight);
-  qs(".poke-button", pokeCardTemp).textContent = type;
-  qs(".poke-button", pokeCardTemp).classList.add(type);
+  // Pokemon Image
+  const pokemonImage = qs(".poke-image", pokeCardTemp);
+  pokemonImage.src = getPokemonImage(pokeId);
+  pokemonImage.alt = pokemon.types[0].type.name;
+  pokemonImage.title = pokemon.types[0].type.name;
+
+  // Pokemon Icon
   qs(".icon", pokeCardTemp).className = `icon ${type}`;
+  const iconImage = qs(".icon-img", pokeCardTemp);
+  iconImage.src = `assets/icons/${type}.svg`;
+  iconImage.alt = type;
+  iconImage.title = type;
 
-  img.src = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`;
-  img.alt = name;
-  img.title = name;
-
-  typeImage.src = `assets/icons/${type}.svg`;
-  typeImage.alt = type;
-  typeImage.title = type;
-
+  // Pokemon Wrapper Append
   pokeWrapper.appendChild(pokeCardTemp);
 
-  qs(`[data-id="${pokemon.id}"]`).addEventListener("click", () => {
-    modal.style.display = "block";
-    getPokemonDetail(pokemon);
+  // Pokemon Event Listener
+  qs(`[data-id="${pokeId}"]`).addEventListener("click", () => {
+    modal.classList.add("show");
+    renderPokemonDetail(pokemon);
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        modal.style.display = "none";
+        modal.classList.remove("show");
       }
     });
   });
 };
 
-const getPokemonDetail = async (pokemon) => {
+const renderPokemonDetail = async (pokemon) => {
   qs("[data-modal]").innerHTML = "";
 
   const pokeDetailTemp = pokeDetailTemplate.content.cloneNode(true);
@@ -188,7 +148,7 @@ const getPokemonDetail = async (pokemon) => {
 
     qs(".modal-type-button", pokeDetailTemp).after(icon2);
   }
-  console.log(pokemon);
+
   qs(".modal-id", pokeDetailTemp).textContent = "#" + id;
   qs(".modal-name", pokeDetailTemp).textContent = name;
   pokemon.abilities.forEach((ability) => {
@@ -232,8 +192,7 @@ const getPokemonDetail = async (pokemon) => {
 
   qs("[data-modal]").appendChild(pokeDetailTemp);
   qs("[data-modal-close]").addEventListener("click", () => {
-    console.log("hello");
-    qs("[data-modal]").style.display = "none";
+    modal.classList.remove("show");
   });
 };
 
@@ -268,14 +227,7 @@ searchInput.addEventListener("input", (e) => {
 pokeForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const pokeName = searchInput.value.toLowerCase();
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeName}`);
-
-  if (res.status === 404) {
-    showSnackbar("Pokemon not found!");
-    return;
-  }
-
-  const data = await res.json();
+  const data = await getPokemonByName(pokeName);
 
   const pokeFound = [...pokeWrapper.children].find(
     (child) => Number(child.dataset.id) === Number(data.id)
@@ -293,6 +245,19 @@ pokeForm.addEventListener("submit", async (e) => {
   }
 });
 
+const handleScroll = () => {
+  const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+  if (!isLoadMoreTriggered && scrollTop + clientHeight >= scrollHeight - 5) {
+    isLoadMoreTriggered = true;
+    currentPage++;
+    loadMorePokemon();
+  }
+};
+
 window.addEventListener("scroll", handleScroll);
+
+const initPokemon = async () => {
+  loadMorePokemon();
+};
 
 initPokemon();
