@@ -2,7 +2,7 @@
 
 ## Screenshot
 
-![Ana Ekran](assets/images/home.png)
+![Ana Ekran](assets/images/pokemon.png)
 _Ana Ekran_
 
 ![Pokémon Detay](assets/images/home-detail.png)
