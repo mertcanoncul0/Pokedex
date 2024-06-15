@@ -217,13 +217,26 @@ const renderPokemonDetail = async (pokemon) => {
 searchInput.addEventListener("input", (e) => {
   const search = searchInput.value.toLowerCase();
   const pokeNames = qsa(".poke-name");
+  const pokeIds = qsa(".poke-id");
 
-  pokeNames.forEach((pokeName) => {
+  for (const pokeName of pokeNames) {
     pokeName.parentElement.classList.remove("fade-out");
     if (!pokeName.textContent.toLowerCase().includes(search)) {
       pokeName.parentElement.classList.add("fade-out");
     }
-  });
+  }
+
+  if (search.startsWith("#")) {
+    for (const pokeId of pokeIds) {
+      if (pokeId.textContent.includes(search)) {
+        pokeId.parentElement.parentElement.classList.remove("fade-out");
+      }
+
+      if (!pokeId.textContent.includes(search)) {
+        pokeId.parentElement.parentElement.classList.add("fade-out");
+      }
+    }
+  }
 
   const pokemons = [...qs("[data-poke-wrapper]").children].filter(
     (child) => child instanceof HTMLDivElement
