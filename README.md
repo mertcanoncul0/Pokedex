@@ -3,7 +3,7 @@
 ## Screenshot
 
 ![Ana Ekran](assets/images/pokemon.png)
-_Ana Ekran_
+_Home
 
 ![Pokémon Detay](assets/images/home-detail.png)
-_Pokémon Detay Sayfası_
+_Pokémon Detail
